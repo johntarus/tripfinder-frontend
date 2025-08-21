@@ -94,28 +94,29 @@ export class TripDetail implements OnInit, AfterViewInit {
     // Tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
 
-    // Green pickup marker
-    const pickupIcon = L.divIcon({
-      className: '',
-      html: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+    // Create a custom CSS class for the marker labels
+    const createCustomIcon = (color: string, label: string) => {
+      return L.divIcon({
+        className: 'custom-marker',
+        html: `
+          <div class="flex items-center space-x-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ${color}" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9a2 2 0 110-4 2 2 0 010 4z"/>
-            </svg>`,
-      iconSize: [24, 24],
-      iconAnchor: [12, 24]
-    });
+            </svg>
+            <span class="text-black font-semibold text-xs bg-white bg-opacity-80 px-1 rounded">${label}</span>
+          </div>
+        `,
+        iconSize: [120, 24],
+        iconAnchor: [0, 12]
+      });
+    };
 
+    // Green pickup marker with black label
+    const pickupIcon = createCustomIcon('text-green-500', this.tripData.pickup);
     L.marker([this.tripData.pickupLat, this.tripData.pickupLng], { icon: pickupIcon }).addTo(this.map);
 
-    // Red dropoff marker
-    const dropoffIcon = L.divIcon({
-      className: '',
-      html: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9a2 2 0 110-4 2 2 0 010 4z"/>
-            </svg>`,
-      iconSize: [24, 24],
-      iconAnchor: [12, 24]
-    });
-
+    // Red dropoff marker with black label
+    const dropoffIcon = createCustomIcon('text-red-500', this.tripData.dropoff);
     L.marker([this.tripData.dropoffLat, this.tripData.dropoffLng], { icon: dropoffIcon }).addTo(this.map);
 
     // Fit map to show both markers
