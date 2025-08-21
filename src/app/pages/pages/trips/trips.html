@@ -5,10 +5,17 @@
   <!-- Main Content -->
   <div class="flex-1 flex flex-col overflow-y-auto">
     <!-- App Header -->
-    <app-header class="pr-20"></app-header>
+    <app-header *ngIf="!showTrips" class="pr-20"></app-header>
+    <div *ngIf="showTrips" class="mt-10 ml-12">
+      <app-header [showBackButton]="true" [filters]="['Today', 'Week', 'Month']"></app-header>
+    </div>
+
+    <div *ngIf="showTrips" class="ml-16">
+      <app-trips-list></app-trips-list>
+    </div>
 
     <!-- Search Filter Card -->
-    <div class="relative px-10 -mt-20">
+    <div *ngIf="!showTrips" class="relative px-10 -mt-20">
       <div class="w-1/2 p-8 text-white bg-[#181819] rounded-lg">
         <!-- Keyword -->
         <h3 class="text-sm text-gray-400 font-thin mb-6 mr-10">KEYWORD</h3>
@@ -144,7 +151,8 @@
 
         <!-- Search Button -->
         <div class="text-center">
-          <button class="bg-[#8B5CF6] text-white px-24 py-4 rounded-2xl text-xl font-semibold">
+          <button class="bg-[#8B5CF6] text-white px-24 py-4 rounded-2xl text-xl font-semibold" (click)="showTrips = true"
+          >
             SEARCH
           </button>
         </div>

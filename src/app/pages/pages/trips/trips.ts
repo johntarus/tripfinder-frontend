@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Sidebar} from '../../../components/shared/sidebar/sidebar';
-import {NgClass, NgForOf} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {Header} from '../../../components/shared/header/header';
+import {TripsList} from './components/trips-list/trips-list';
 
 @Component({
   selector: 'app-trips',
@@ -12,6 +13,8 @@ import {Header} from '../../../components/shared/header/header';
     Sidebar,
     NgClass,
     NgForOf,
+    TripsList,
+    NgIf,
   ],
   templateUrl: './trips.html',
   styleUrl: './trips.css'
@@ -21,6 +24,8 @@ export class Trips {
   selectedDistance = 'any';
   selectedTime = 'any';
   selectedStatus: string = 'All Trips';
+
+  showTrips: boolean = false;
 
   statusOptions = [
     { label: 'All Trips', value: 'all' },
