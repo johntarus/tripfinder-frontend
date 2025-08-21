@@ -12,7 +12,7 @@ import * as L from 'leaflet';
   styleUrl: './trip-detail.css'
 })
 export class TripDetail implements OnInit, AfterViewInit {
-  @Input() trip!: Trip; // Keep for parent input
+  @Input() trip!: Trip;
   tripData: Trip | undefined;
 
   private map!: L.Map;
@@ -40,7 +40,7 @@ export class TripDetail implements OnInit, AfterViewInit {
     this.tripsService.getTripById(tripId).subscribe({
       next: (data) => {
         this.tripData = data;
-        this.initMap(); // initialize map after data is fetched
+        this.initMap();
       },
       error: (err) => {
         console.error('Error fetching trip details:', err);
@@ -80,10 +80,8 @@ export class TripDetail implements OnInit, AfterViewInit {
   private initMap(): void {
     if (!this.tripData) return;
 
-    // Remove existing map if it exists
     if (this.map) this.map.remove();
 
-    // Initialize map centered at pickup
     this.map = L.map('trip-map', {
       center: [this.tripData.pickupLat, this.tripData.pickupLng],
       zoom: 13,
@@ -91,10 +89,8 @@ export class TripDetail implements OnInit, AfterViewInit {
       attributionControl: false
     });
 
-    // Tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
 
-    // Create a custom CSS class for the marker labels
     const createCustomIcon = (color: string, label: string) => {
       return L.divIcon({
         className: 'custom-marker',
@@ -111,15 +107,12 @@ export class TripDetail implements OnInit, AfterViewInit {
       });
     };
 
-    // Green pickup marker with black label
     const pickupIcon = createCustomIcon('text-green-500', this.tripData.pickup);
     L.marker([this.tripData.pickupLat, this.tripData.pickupLng], { icon: pickupIcon }).addTo(this.map);
 
-    // Red dropoff marker with black label
     const dropoffIcon = createCustomIcon('text-red-500', this.tripData.dropoff);
     L.marker([this.tripData.dropoffLat, this.tripData.dropoffLng], { icon: dropoffIcon }).addTo(this.map);
 
-    // Fit map to show both markers
     const bounds = L.latLngBounds([
       [this.tripData.pickupLat, this.tripData.pickupLng],
       [this.tripData.dropoffLat, this.tripData.dropoffLng]

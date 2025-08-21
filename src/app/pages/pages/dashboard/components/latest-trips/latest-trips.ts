@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DatePipe, NgForOf, NgIf} from '@angular/common';
 import { TripsService} from '../../../../../services/trips.service';
-import {Trip} from '../../../../../models/trip.interface';
 import {TLatestTripData} from '../../../../../models/latest-trip.interface';
 
 @Component({

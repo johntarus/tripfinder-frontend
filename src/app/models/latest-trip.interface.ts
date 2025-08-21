@@ -7,7 +7,7 @@ export interface TLatestTripData {
   carMake: string;
   carModel: string;
   carNumber: string;
-  requestDate: string; // ISO date string
+  requestDate: string;
   status: string;
   distance: number;
   duration: number;

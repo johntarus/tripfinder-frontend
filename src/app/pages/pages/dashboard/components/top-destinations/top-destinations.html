@@ -1,4 +1,3 @@
-<!-- top-destinations.html - Exactly matching Next.js version -->
 <div class="bg-[#181819] rounded-lg p-6 h-full border-2 border-[#50465b]"
      style="border-radius: 60px">
   <h3 class="text-white text-2xl font-semibold mb-4 pt-6 pl-6">
@@ -8,7 +7,6 @@
   <div *ngIf="loading" class="text-white">Loading...</div>
 
   <div *ngIf="!loading" class="flex items-center">
-    <!-- Donut chart container -->
     <div class="flex justify-start items-center" style="width: 200px">
       <canvas baseChart
               [data]="doughnutChartData"
@@ -18,7 +16,6 @@
       </canvas>
     </div>
 
-    <!-- Legend with progress bars -->
     <div class="flex-1 text-sm text-gray-300 ml-4">
       <div *ngFor="let dest of destinations; let i = index" class="mb-2">
         <span class="block text-lg text-[#b8b5b5] font-semibold">

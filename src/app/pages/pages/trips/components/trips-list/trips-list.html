@@ -1,12 +1,10 @@
 <div class="min-h-screen bg-[#181819] p-6">
-  <!-- Header -->
   <div class="mb-8">
     <h1 class="text-white text-2xl font-semibold" aria-live="polite">
       <span class="text-purple-400">{{ trips.length }}</span> trips found
     </h1>
   </div>
 
-  <!-- Loading state -->
   <div *ngIf="trips.length === 0" class="flex justify-center items-center h-64" role="alert" aria-label="No trips found">
     <div class="text-center">
       <svg class="w-16 h-16 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -18,7 +16,6 @@
     </div>
   </div>
 
-  <!-- Trips Grid -->
   <div *ngIf="trips.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <app-trip-card
       *ngFor="let trip of trips; trackBy: trackByTripId"

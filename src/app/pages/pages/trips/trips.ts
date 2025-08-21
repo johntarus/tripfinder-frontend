@@ -62,7 +62,6 @@ export class Trips {
   }
 
   search(): void {
-    // Map status
     let statusFilter: 'Completed' | 'Cancelled' | 'Both' | 'All' = 'All';
     switch (this.selectedStatus) {
       case 'Completed':
@@ -97,7 +96,6 @@ export class Trips {
     const distance = distanceMap[this.selectedDistance as keyof typeof distanceMap];
     const duration = durationMap[this.selectedTime as keyof typeof durationMap];
 
-    // ✅ Build filters array for header chips
     this.filters = [];
     if (this.searchQuery) this.filters.push(this.searchQuery);
     if (this.selectedStatus !== 'All Trips') this.filters.push(this.selectedStatus);

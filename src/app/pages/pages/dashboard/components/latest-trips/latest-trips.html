@@ -1,5 +1,4 @@
 <div class="bg-[#1a1a1b] p-6 rounded-2xl shadow-md flex flex-col h-full">
-  <!-- Header -->
   <div class="flex justify-between items-center mb-4 flex-none">
     <h2 class="text-white text-2xl font-bold">Latest Trips</h2>
     <a href="/trips" class="text-purple-400 text-sm hover:underline transition-colors">
@@ -7,25 +6,20 @@
     </a>
   </div>
 
-  <!-- Loading -->
   <div *ngIf="loading" class="text-gray-400">Loading...</div>
 
-  <!-- Trip list -->
   <div *ngIf="!loading" class="flex-1 space-y-4">
     <div *ngFor="let trip of trips; index as i" class="flex justify-between items-center">
       <div class="flex items-center space-x-4">
-        <!-- Number -->
         <span class="text-[#FFCC67] text-5xl font-bold w-12 text-center">
           {{ i + 1 }}
         </span>
 
-        <!-- Location -->
         <div class="text-white text-sm font-bold">
           {{ trip.pickup }}
         </div>
       </div>
 
-      <!-- Date -->
       <span class="text-gray-500 text-xs font-bold">
         {{ trip.requestDate | date:'EEE MMM d, y h:mm a' }}
       </span>

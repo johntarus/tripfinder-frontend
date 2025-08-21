@@ -78,7 +78,6 @@ export class TripCard implements OnInit {
   onImageError(): void {
     this.imageError = true;
     this.imageLoaded = false;
-    // Fallback to a gradient
     this.backgroundImageUrl = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
     console.warn('Switched to fallback gradient due to image error');
   }

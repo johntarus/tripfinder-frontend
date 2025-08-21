@@ -89,7 +89,7 @@ export class TripsOverTime implements OnInit {
 
     data.forEach(item => {
       const date = new Date(item.date);
-      const monthIndex = date.getMonth(); // 0-11
+      const monthIndex = date.getMonth();
       monthlyData[monthIndex] = item.value;
     });
 

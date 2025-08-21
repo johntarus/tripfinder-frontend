@@ -1,38 +1,29 @@
 <div class="flex h-screen bg-[#181819] text-white">
-  <!-- Sidebar -->
   <app-sidebar class="bg-[#181819] h-full"></app-sidebar>
 
-  <!-- Main Content -->
   <div class="flex-1 flex flex-col overflow-y-auto">
 
-    <!-- Default Header (before trips are shown) -->
     <app-header *ngIf="!showTrips" class="pr-20 mt-10"></app-header>
 
-    <!-- Trips List Header -->
     <div *ngIf="showTrips && !showTripDetail" class="mt-10 ml-12 pr-20">
       <app-header [showBackButton]="true" [filters]="filters"   (removeFilter)="onRemoveFilter($event)" (backClick)="onBackToHome()"></app-header>
     </div>
 
-    <!-- Trip Detail Header -->
     <div *ngIf="showTripDetail && selectedTrip" class="mt-10 ml-12 pr-20">
       <app-header [showBackButton]="true" [title]="'Trip # ' + selectedTrip.id" (backClick)="onBackToTrips()">
         ></app-header>
     </div>
 
-    <!-- Trips List -->
     <div *ngIf="showTrips && !showTripDetail" class="ml-14">
       <app-trips-list [trips]="trips" (tripClicked)="onTripSelected($event)"></app-trips-list>
     </div>
 
-    <!-- Trip Detail -->
     <div *ngIf="showTripDetail && selectedTrip" class="ml-14">
       <app-trip-detail [trip]="selectedTrip"></app-trip-detail>
     </div>
 
-    <!-- Search Filter Card -->
     <div *ngIf="!showTrips" class="relative pl-8 pr-10 -mt-20">
       <div class="w-1/2 p-8 text-white bg-[#181819] rounded-lg">
-        <!-- Keyword -->
         <h3 class="text-sm text-gray-400 font-thin mb-6 mr-10">KEYWORD</h3>
         <div class="relative w-full mb-10">
           <input
@@ -41,7 +32,6 @@
             placeholder="Search by distance, duration, keyword..."
             class="w-full px-12 py-5 rounded-[20px] bg-[#2c2c2e] text-gray-200 placeholder-gray-500 focus:outline-none"
           />
-          <!-- Search Icon -->
           <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
             <svg
               class="w-6 h-6 text-gray-500"
@@ -60,7 +50,6 @@
           </div>
         </div>
 
-        <!-- Status Filter -->
         <div class="mb-10">
           <h3 class="text-sm text-gray-400 font-thin mb-4 mr-10">STATUS</h3>
           <div class="flex p-3 w-[90%] bg-[#2c2c2e] rounded-[20px] gap-4"><button
@@ -79,9 +68,7 @@
           </div>
         </div>
 
-        <!-- Distance and Time Filters -->
         <div class="grid grid-cols-2 gap-30 mb-16">
-          <!-- Distance -->
           <div class="px-6 w-[17rem] py-10 border-2 border-[#8B5CF6]" style="border-radius:30px;">
             <p class="text-xs text-gray-400 font-normal mb-4 ml-0">DISTANCE</p>
             <ul class="space-y-3">
@@ -237,7 +224,6 @@
           </div>
         </div>
 
-        <!-- Search Button -->
         <div class="text-center">
           <button class="bg-[#8B5CF6] text-white px-24 py-4 rounded-2xl text-xl font-semibold" (click)="search()">
             SEARCH
