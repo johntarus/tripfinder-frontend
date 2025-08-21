@@ -5,14 +5,11 @@
       <!-- Left Side - Map -->
       <div class="bg-[#2c2c2e] rounded-[40px] overflow-hidden">
         <img
-          [src]="
-      'https://source.unsplash.com/random/800x400?travel,car,city'
-    "
+          [src]="tripData?.carPictureUrl || 'https://source.unsplash.com/random/800x400?travel,car,city'"
           alt="Trip Route Map"
           class="w-full h-96 object-cover rounded-[40px]"
         />
       </div>
-
 
       <!-- Right Side - Trip Details -->
       <div class="text-white py-8">
@@ -20,7 +17,7 @@
         <div class="flex justify-between items-center mb-6">
           <div>
             <p class="text-3xl font-bold">
-              {{ trip?.requestDate || 'Unknown Date' }}
+              {{ tripData?.requestDate || 'Unknown Date' }}
             </p>
             <div class="flex mt-2 space-x-1">
               <ng-container *ngFor="let star of starArray">
@@ -35,25 +32,32 @@
               </ng-container>
             </div>
           </div>
-          <span class="px-6 py-3 bg-green-500 rounded-full text-white font-medium">
-            {{ trip?.status || 'Unknown Status' }}
-          </span>
+          <span
+            class="px-6 py-3 rounded-full text-white font-medium"
+            [ngClass]="{
+    'bg-green-500': tripData?.status === 'Completed',
+    'bg-red-500': tripData?.status === 'Canceled',
+    'bg-gray-500': tripData?.status !== 'Completed' && tripData?.status !== 'Canceled'
+  }"
+          >
+  {{ tripData?.status || 'Unknown Status' }}
+</span>
         </div>
 
         <!-- Price, Duration & Distance -->
         <div class="flex justify-between mb-8">
           <div>
             <p class="text-gray-400 text-sm uppercase">PRICE</p>
-            <p class="text-5xl font-bold mt-3">KES {{ trip?.fare || 0 }}</p>
+            <p class="text-5xl font-bold mt-3">KES {{ tripData?.fare || 0 }}</p>
           </div>
           <div class="flex flex-col text-right">
             <div class="mb-4">
               <p class="text-gray-400 text-sm uppercase">DURATION</p>
-              <p class="text-lg font-bold">Unknown Duration</p>
+              <p class="text-lg font-bold">{{ tripData?.duration || 'Unknown Duration' }}</p>
             </div>
             <div>
               <p class="text-gray-400 text-sm uppercase">DISTANCE</p>
-              <p class="text-lg font-bold">{{ trip?.distance || '0 KM' }}</p>
+              <p class="text-lg font-bold">{{ tripData?.distance || '0 KM' }}</p>
             </div>
           </div>
         </div>
@@ -63,29 +67,34 @@
           <!-- Pickup -->
           <div class="flex justify-between items-center">
             <div class="flex items-center space-x-3">
-              <div class="bg-green-500 p-2 rounded-full">
-                <img src="/assets/icons/location.svg" alt="Pickup" class="w-5 h-5" />
+              <div class="bg-green-500 p-2 rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9a2 2 0 110-4 2 2 0 010 4z"/>
+                </svg>
               </div>
               <p class="text-md font-bold">
-                {{ trip?.pickup || 'Unknown Pickup' }}
+                {{ tripData?.pickup || 'Unknown Pickup' }}
               </p>
             </div>
             <p class="text-md font-semibold text-gray-300">
-              Unknown Pickup Time
+              {{ getPickupTimeOnly(tripData?.pickUpTime) }}
             </p>
           </div>
+
           <!-- Dropoff -->
           <div class="flex justify-between items-center">
             <div class="flex items-center space-x-3">
-              <div class="bg-red-500 p-2 rounded-full">
-                <img src="/assets/icons/location.svg" alt="Dropoff" class="w-5 h-5" />
+              <div class="bg-red-500 p-2 rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9a2 2 0 110-4 2 2 0 010 4z"/>
+                </svg>
               </div>
               <p class="text-md font-bold">
-                {{ trip?.dropoff || 'Unknown Dropoff' }}
+                {{ tripData?.dropoff || 'Unknown Dropoff' }}
               </p>
             </div>
             <p class="text-md font-semibold text-gray-300">
-              Unknown Dropoff Time
+              {{ getPickupTimeOnly(tripData?.dropOffTime) }}
             </p>
           </div>
         </div>
@@ -99,7 +108,7 @@
         <h3 class="text-gray-400 text-2xl font-bold mb-4">DRIVER INFO</h3>
         <div class="border-2 border-[#50465b] p-6 rounded-[40px] h-full flex flex-col">
           <img
-            [src]="'https://rapidtechinsights.github.io/hr-assignment/p13.jpg'"
+            [src]="tripData?.driverPicture || 'https://rapidtechinsights.github.io/hr-assignment/p13.jpg'"
             alt="Driver"
             class="w-full h-40 object-cover rounded-[30px] mb-4"
           />
@@ -107,12 +116,12 @@
             <div>
               <p class="text-sm text-gray-400 mb-1">DRIVER NAME</p>
               <p class="text-white font-semibold">
-                {{ 'Unknown Driver' }}
+                {{ tripData?.driverName || 'Unknown Driver' }}
               </p>
             </div>
             <span class="bg-purple-500 px-5 py-1 rounded-3xl text-yellow-400">
-          &#9733; {{ '0.0' }}
-        </span>
+              &#9733; {{ tripData?.driverRating || '0.0' }}
+            </span>
           </div>
         </div>
       </div>
@@ -120,9 +129,9 @@
       <!-- Car Info -->
       <div class="w-2/3 flex flex-col">
         <h3 class="text-gray-400 text-2xl font-bold mb-4">CAR INFO</h3>
-        <div class="border-2 border-[#50465b] p-6 rounded-[30px] flex gap-6 h-full">
+        <div class="border-2 border-[#50465b] p-6 rounded-[40px] flex gap-6 h-full">
           <img
-            [src]="'https://rapidtechinsights.github.io/hr-assignment/c13.jpg'"
+            [src]="tripData?.carPictureUrl || 'https://rapidtechinsights.github.io/hr-assignment/c13.jpg'"
             alt="Car"
             class="w-2/3 h-48 object-cover rounded-[30px]"
           />
@@ -130,29 +139,27 @@
             <div class="flex justify-between mb-6">
               <div>
                 <p class="text-sm text-gray-400">MAKE/MODEL</p>
-                <p class="text-lg font-semibold">Toyota Harrier</p>
+                <p class="text-lg font-semibold">{{ tripData?.carMake || 'Unknown' }} {{ tripData?.carModel || 'Unknown' }}</p>
               </div>
               <div>
                 <p class="text-sm text-gray-400">YEAR</p>
-                <p class="text-lg font-semibold">2021</p>
+                <p class="text-lg font-semibold">Unknown Year</p> <!-- API doesn't provide year; add if available -->
               </div>
             </div>
 
             <div class="flex justify-between">
               <div>
                 <p class="text-sm text-gray-400">PLATE</p>
-                <p class="text-lg font-semibold">KDC 123A</p>
+                <p class="text-lg font-semibold">{{ tripData?.carNumber || 'Unknown Plate' }}</p>
               </div>
               <div>
                 <p class="text-sm text-gray-400">COLOR</p>
-                <p class="text-lg font-semibold">White</p>
+                <p class="text-lg font-semibold">Unknown Color</p> <!-- API doesn't provide color; add if available -->
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
   </div>
 </div>

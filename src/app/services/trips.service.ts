@@ -3,6 +3,7 @@ import {catchError, Observable, of, retry} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {TLatestTripData} from '../models/latest-trip.interface';
 import {TripSearchResponse} from '../models/trip-search-response.interface';
+import {Trip} from '../models/trip.interface';
 
 export interface OvertimeData {
   date: string;
@@ -126,6 +127,10 @@ export class TripsService {
 
   getLatestTrips(count: number = 5): Observable<TLatestTripData[]> {
     return this.http.get<TLatestTripData[]>(`${this.baseUrl}/latest?count=${count}`);
+  }
+
+  getTripById(id: number): Observable<Trip> {
+    return this.http.get<Trip>(`${this.baseUrl}/${id}`);
   }
 
   searchTrips(

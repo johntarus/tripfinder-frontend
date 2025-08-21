@@ -12,6 +12,7 @@ export interface Trip {
   driverName: string;
   driverRating: number;
   pickUpTime: string;
+  dropOffTime: string;
   carMake: string;
   carModel: string;
   carNumber: string;
