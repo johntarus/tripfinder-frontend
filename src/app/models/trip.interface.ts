@@ -1,12 +1,26 @@
 export interface Trip {
-  id: string;
-  date: string;
-  time: string;
-  status: 'Complete' | 'Canceled';
-  rating: number; // 0-5, 0 means no rating
-  startLocation: string;
-  endLocation: string;
-  price: number;
-  distance: string;
-  backgroundImage: string;
+  id: number;
+  pickup: string;
+  dropoff: string;
+  type: string;
+  requestDate: string;
+  status: string;
+  distance: number;
+  duration: number;
+  fare: number;
+
+  driverName: string;
+  driverRating: number;
+  pickUpTime: string;
+  carMake: string;
+  carModel: string;
+  carNumber: string;
+
+  carPictureUrl: string;
+  driverPicture: string;
+
+  pickupLat: number;
+  pickupLng: number;
+  dropoffLat: number;
+  dropoffLng: number;
 }

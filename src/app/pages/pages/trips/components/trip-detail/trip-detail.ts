@@ -17,6 +17,6 @@ export class TripDetail {
   }
 
   isStarFilled(starNumber: number): boolean {
-    return starNumber <= (this.trip?.rating || 0);
+    return starNumber <= (this.trip?.driverRating || 0);
   }
 }

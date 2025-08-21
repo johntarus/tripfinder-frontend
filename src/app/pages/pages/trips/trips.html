@@ -21,7 +21,7 @@
 
     <!-- Trips List -->
     <div *ngIf="showTrips && !showTripDetail" class="ml-14">
-      <app-trips-list (tripClicked)="onTripSelected($event)"></app-trips-list>
+      <app-trips-list [trips]="trips" (tripClicked)="onTripSelected($event)"></app-trips-list>
     </div>
 
     <!-- Trip Detail -->
@@ -29,7 +29,7 @@
       <app-trip-detail [trip]="selectedTrip"></app-trip-detail>
     </div>
 
-<!-- Search Filter Card -->
+    <!-- Search Filter Card -->
     <div *ngIf="!showTrips" class="relative pl-8 pr-10 -mt-20">
       <div class="w-1/2 p-8 text-white bg-[#181819] rounded-lg">
         <!-- Keyword -->
@@ -37,6 +37,7 @@
         <div class="relative w-full mb-10">
           <input
             type="text"
+            [(ngModel)]="searchQuery"
             placeholder="Search by distance, duration, keyword..."
             class="w-full px-12 py-5 rounded-[20px] bg-[#2c2c2e] text-gray-200 placeholder-gray-500 focus:outline-none"
           />
@@ -86,31 +87,31 @@
             <ul class="space-y-3">
               <li>
                 <label class="flex items-center space-x-2 py-1 cursor-pointer">
-                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <input type="radio" [value]="'any'" [(ngModel)]="selectedDistance" (change)="selectedDistance='any'" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
                   <span class="text-white text-bold text-md">Any</span>
                 </label>
               </li>
               <li>
                 <label class="flex items-center space-x-2 py-1 cursor-pointer">
-                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <input type="radio" [value]="'under3'" [(ngModel)]="selectedDistance" (change)="selectedDistance='under3'" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
                   <span class="text-white text-bold text-md">Under 3 Km</span>
                 </label>
               </li>
               <li>
                 <label class="flex items-center space-x-2 py-1 cursor-pointer">
-                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <input type="radio" [value]="'3to6'" [(ngModel)]="selectedDistance" (change)="selectedDistance='3to6'" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
                   <span class="text-white text-bold text-md">3 to 6 Km</span>
                 </label>
               </li>
               <li>
                 <label class="flex items-center space-x-2 py-1 cursor-pointer">
-                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <input type="radio" [value]="'6to15'" [(ngModel)]="selectedDistance" (change)="selectedDistance='6to15'" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
                   <span class="text-white text-bold text-md">6 to 15 Km</span>
                 </label>
               </li>
               <li>
                 <label class="flex items-center space-x-2 py-1 cursor-pointer">
-                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <input type="radio" [value]="'over15'" [(ngModel)]="selectedDistance" (change)="selectedDistance='over15'" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
                   <span class="text-white text-bold text-md">More than 15 Km</span>
                 </label>
               </li>
@@ -125,36 +126,33 @@
                 <label class="flex items-center py-1 space-x-2 cursor-pointer">
                   <input
                     type="radio"
-                    name="time"
-                    value="option"
+                    [value]="'any'" [(ngModel)]="selectedTime" (change)="selectedTime='any'"
                     class="relative float-left mfe-1 mt-0.5 h-5.5 w-5.5 appearance-none rounded-full border-2 border-solid after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:bg-[#8B5CF6] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04]  dark:border-[#8B5CF6] "
                   />
-                  <span class="text-white text-bold text-md">
-      Any
-    </span>
+                  <span class="text-white text-bold text-md">Any</span>
                 </label>
               </li>
               <li>
                 <label class="flex items-center space-x-2 py-1 cursor-pointer">
-                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <input type="radio" [value]="'under5'" [(ngModel)]="selectedTime" (change)="selectedTime='under5'" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
                   <span class="text-white text-bold text-md">Under 5 min</span>
                 </label>
               </li>
               <li>
                 <label class="flex items-center space-x-2 py-1 cursor-pointer">
-                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <input type="radio" [value]="'5to10'" [(ngModel)]="selectedTime" (change)="selectedTime='5to10'" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
                   <span class="text-white text-bold text-md">5 to 10 min</span>
                 </label>
               </li>
               <li>
                 <label class="flex items-center space-x-2 py-1 cursor-pointer">
-                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <input type="radio" [value]="'10to20'" [(ngModel)]="selectedTime" (change)="selectedTime='10to20'" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
                   <span class="text-white text-bold text-md">10 to 20 min</span>
                 </label>
               </li>
               <li>
                 <label class="flex items-center space-x-2 py-1 cursor-pointer">
-                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <input type="radio" [value]="'over20'" [(ngModel)]="selectedTime" (change)="selectedTime='over20'" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
                   <span class="text-white text-bold text-md">More than 20 min</span>
                 </label>
               </li>
@@ -164,7 +162,7 @@
 
         <!-- Search Button -->
         <div class="text-center">
-          <button class="bg-[#8B5CF6] text-white px-24 py-4 rounded-2xl text-xl font-semibold" (click)="showTrips = true">
+          <button class="bg-[#8B5CF6] text-white px-24 py-4 rounded-2xl text-xl font-semibold" (click)="search()">
             SEARCH
           </button>
         </div>

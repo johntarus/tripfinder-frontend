@@ -5,11 +5,14 @@
       <!-- Left Side - Map -->
       <div class="bg-[#2c2c2e] rounded-[40px] overflow-hidden">
         <img
-          [src]="trip?.backgroundImage || 'https://via.placeholder.com/800x400'"
+          [src]="
+      'https://source.unsplash.com/random/800x400?travel,car,city'
+    "
           alt="Trip Route Map"
           class="w-full h-96 object-cover rounded-[40px]"
         />
       </div>
+
 
       <!-- Right Side - Trip Details -->
       <div class="text-white py-8">
@@ -17,7 +20,7 @@
         <div class="flex justify-between items-center mb-6">
           <div>
             <p class="text-3xl font-bold">
-              {{ trip?.date || 'Unknown Date' }}
+              {{ trip?.requestDate || 'Unknown Date' }}
             </p>
             <div class="flex mt-2 space-x-1">
               <ng-container *ngFor="let star of starArray">
@@ -41,7 +44,7 @@
         <div class="flex justify-between mb-8">
           <div>
             <p class="text-gray-400 text-sm uppercase">PRICE</p>
-            <p class="text-5xl font-bold mt-3">KES {{ trip?.price || 0 }}</p>
+            <p class="text-5xl font-bold mt-3">KES {{ trip?.fare || 0 }}</p>
           </div>
           <div class="flex flex-col text-right">
             <div class="mb-4">
@@ -64,7 +67,7 @@
                 <img src="/assets/icons/location.svg" alt="Pickup" class="w-5 h-5" />
               </div>
               <p class="text-md font-bold">
-                {{ trip?.startLocation || 'Unknown Pickup' }}
+                {{ trip?.pickup || 'Unknown Pickup' }}
               </p>
             </div>
             <p class="text-md font-semibold text-gray-300">
@@ -78,7 +81,7 @@
                 <img src="/assets/icons/location.svg" alt="Dropoff" class="w-5 h-5" />
               </div>
               <p class="text-md font-bold">
-                {{ trip?.endLocation || 'Unknown Dropoff' }}
+                {{ trip?.dropoff || 'Unknown Dropoff' }}
               </p>
             </div>
             <p class="text-md font-semibold text-gray-300">
