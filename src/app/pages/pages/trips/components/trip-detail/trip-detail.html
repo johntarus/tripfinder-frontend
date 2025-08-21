@@ -3,13 +3,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
       <!-- Left Side - Map -->
-      <div class="bg-[#2c2c2e] rounded-[40px] overflow-hidden">
-        <img
-          [src]="tripData?.carPictureUrl || 'https://source.unsplash.com/random/800x400?travel,car,city'"
-          alt="Trip Route Map"
-          class="w-full h-96 object-cover rounded-[40px]"
-        />
-      </div>
+      <div id="trip-map" class="bg-[#2c2c2e] rounded-[40px] h-96 w-full overflow-hidden"></div>
 
       <!-- Right Side - Trip Details -->
       <div class="text-white py-8">

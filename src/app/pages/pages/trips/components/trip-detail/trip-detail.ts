@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { DatePipe, NgClass, NgForOf } from '@angular/common';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
+import { NgClass, NgForOf } from '@angular/common';
 import { Trip } from '../../../../../models/trip.interface';
 import { TripsService } from '../../../../../services/trips.service';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-trip-detail',
@@ -10,9 +11,11 @@ import { TripsService } from '../../../../../services/trips.service';
   templateUrl: './trip-detail.html',
   styleUrl: './trip-detail.css'
 })
-export class TripDetail implements OnInit {
-  @Input() trip!: Trip; // Keep for potential parent input, but we'll override with API data
-  tripData: Trip | undefined; // Store API-fetched data
+export class TripDetail implements OnInit, AfterViewInit {
+  @Input() trip!: Trip; // Keep for parent input
+  tripData: Trip | undefined;
+
+  private map!: L.Map;
 
   get starArray(): number[] {
     return [1, 2, 3, 4, 5];
@@ -28,11 +31,16 @@ export class TripDetail implements OnInit {
     this.fetchTripDetails();
   }
 
+  ngAfterViewInit(): void {
+    if (this.tripData) this.initMap();
+  }
+
   private fetchTripDetails(): void {
-    const tripId = this.trip?.id || 0; // Use input trip.id or default to 0
+    const tripId = this.trip?.id || 0;
     this.tripsService.getTripById(tripId).subscribe({
       next: (data) => {
         this.tripData = data;
+        this.initMap(); // initialize map after data is fetched
       },
       error: (err) => {
         console.error('Error fetching trip details:', err);
@@ -59,7 +67,7 @@ export class TripDetail implements OnInit {
           pickupLng: 0,
           dropoffLat: 0,
           dropoffLng: 0
-        }; // Updated fallback data with correct casing
+        };
       }
     });
   }
@@ -67,5 +75,54 @@ export class TripDetail implements OnInit {
   getPickupTimeOnly(time?: string): string {
     if (!time) return 'Unknown Time';
     return new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  private initMap(): void {
+    if (!this.tripData) return;
+
+    // Remove existing map if it exists
+    if (this.map) this.map.remove();
+
+    // Initialize map centered at pickup
+    this.map = L.map('trip-map', {
+      center: [this.tripData.pickupLat, this.tripData.pickupLng],
+      zoom: 13,
+      zoomControl: false,
+      attributionControl: false
+    });
+
+    // Tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+
+    // Green pickup marker
+    const pickupIcon = L.divIcon({
+      className: '',
+      html: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9a2 2 0 110-4 2 2 0 010 4z"/>
+            </svg>`,
+      iconSize: [24, 24],
+      iconAnchor: [12, 24]
+    });
+
+    L.marker([this.tripData.pickupLat, this.tripData.pickupLng], { icon: pickupIcon }).addTo(this.map);
+
+    // Red dropoff marker
+    const dropoffIcon = L.divIcon({
+      className: '',
+      html: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9a2 2 0 110-4 2 2 0 010 4z"/>
+            </svg>`,
+      iconSize: [24, 24],
+      iconAnchor: [12, 24]
+    });
+
+    L.marker([this.tripData.dropoffLat, this.tripData.dropoffLng], { icon: dropoffIcon }).addTo(this.map);
+
+    // Fit map to show both markers
+    const bounds = L.latLngBounds([
+      [this.tripData.pickupLat, this.tripData.pickupLng],
+      [this.tripData.dropoffLat, this.tripData.dropoffLng]
+    ]);
+    this.map.fitBounds(bounds, { padding: [50, 50] });
   }
 }
