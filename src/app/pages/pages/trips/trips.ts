@@ -30,6 +30,13 @@ export class Trips {
   selectedStatus: string = 'All Trips';
   trips: Trip[] = [];
 
+  filters: string[] = [];
+
+  onRemoveFilter(filter: string) {
+    this.filters = this.filters.filter(f => f !== filter);
+  }
+
+
   showTrips: boolean = false;
   showTripDetail: boolean = false;
   selectedTrip: Trip | null = null;
@@ -45,13 +52,13 @@ export class Trips {
     this.showTrips = false;
   }
 
+
   onBackToTrips() {
     this.showTripDetail = false;
     this.selectedTrip = null;
   }
 
   search(): void {
-    // Map your UI selection to backend enum values
     let statusFilter: 'Completed' | 'Cancelled' | 'Both' | 'All' = 'All';
     switch (this.selectedStatus) {
       case 'Completed':
@@ -67,21 +74,45 @@ export class Trips {
         statusFilter = 'All';
     }
 
-    const distanceMap = { 'any': undefined, 'under3': 0, '3to6': 1, '6to15': 2, 'over15': 3 };
-    const durationMap = { 'any': undefined, 'under5': 0, '5to10': 1, '10to20': 2, 'over20': 3 };
+    const distanceMap = { any: undefined, under3: 0, '3to6': 1, '6to15': 2, over15: 3 };
+    const durationMap = { any: undefined, under5: 0, '5to10': 1, '10to20': 2, over20: 3 };
 
-    const distance = distanceMap[this.selectedDistance.replace(/\s+/g, '') as keyof typeof distanceMap];
-    const duration = durationMap[this.selectedTime.replace(/\s+/g, '') as keyof typeof durationMap];
+    const distanceLabels = {
+      any: undefined,
+      under3: 'Under 3 Km',
+      '3to6': '3–6 Km',
+      '6to15': '6–15 Km',
+      over15: 'Over 15 Km'
+    };
+
+    const durationLabels = {
+      any: undefined,
+      under5: 'Under 5 min',
+      '5to10': '5–10 min',
+      '10to20': '10–20 min',
+      over20: 'Over 20 min'
+    };
+
+    const distance = distanceMap[this.selectedDistance as keyof typeof distanceMap];
+    const duration = durationMap[this.selectedTime as keyof typeof durationMap];
+
+    this.filters = [];
+    if (statusFilter !== 'All') this.filters.push(statusFilter);
+    // @ts-ignore
+    if (distanceLabels[this.selectedDistance]) this.filters.push(distanceLabels[this.selectedDistance]!);
+    // @ts-ignore
+    if (durationLabels[this.selectedTime]) this.filters.push(durationLabels[this.selectedTime]!);
+    if (this.searchQuery.trim()) this.filters.push(`${this.searchQuery.trim()}`);
 
     this.tripsService.searchTrips(
       this.searchQuery,
       statusFilter,
       distance,
       duration,
-      1, // page
-      10, // pageSize
-      'requestDate', // sortBy
-      false // sortDescending
+      1,
+      10,
+      'requestDate',
+      false
     ).subscribe({
       next: (response) => {
         if (response.success) {

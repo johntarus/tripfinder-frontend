@@ -19,6 +19,13 @@ export class Header {
   @Input() showSearchBar = false;
   @Output() backClick = new EventEmitter<void>();
 
+  @Output() removeFilter = new EventEmitter<string>();
+
+  onRemoveFilter(filter: string) {
+    this.removeFilter.emit(filter);
+  }
+
+
   onBackClick() {
     this.backClick.emit();
   }
