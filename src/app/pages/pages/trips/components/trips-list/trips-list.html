@@ -1,0 +1,33 @@
+<div class="min-h-screen bg-[#181819] p-6">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-white text-2xl font-semibold">
+      <span class="text-purple-400">{{ trips.length }}</span> trips found
+    </h1>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="flex justify-center items-center h-64">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400"></div>
+  </div>
+
+  <!-- Trips Grid -->
+  <div *ngIf="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <app-trip-card
+      *ngFor="let trip of trips; trackBy: trackByTripId"
+      [trip]="trip"
+      (click)="onTripClick(trip)">
+    </app-trip-card>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading && trips.length === 0"
+       class="flex flex-col items-center justify-center h-64 text-gray-400">
+    <svg class="w-16 h-16 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.47-.881-6.08-2.33"></path>
+    </svg>
+    <p class="text-lg font-medium">No trips found</p>
+    <p class="text-sm">Try adjusting your search criteria</p>
+  </div>
+</div>
