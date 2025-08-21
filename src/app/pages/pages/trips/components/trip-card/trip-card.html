@@ -1,13 +1,23 @@
 <div
   class="relative rounded-3xl overflow-hidden h-96 bg-cover bg-center group cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-lg"
-  [style.background-image]="'url(' + backgroundImageUrl + ')'"
+  [style.background-image]="imageError ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : (imageLoaded ? 'url(' + backgroundImageUrl + ')' : 'linear-gradient(135deg, #e0e0e0 0%, #ffffff 100%)')"
 >
-  <!-- Blurred overlay -->
+  <!-- Blurred overlay (only show if image loaded successfully) -->
   <div
+    *ngIf="imageLoaded"
     class="absolute inset-0 z-0"
     [style.background-image]="'url(' + backgroundImageUrl + ')'"
     style="opacity: 0.7; backdrop-filter: blur(5px);"
   ></div>
+
+  <!-- Hidden image to trigger loading and error events -->
+  <img
+    [src]="backgroundImageUrl"
+    (load)="onImageLoad()"
+    (error)="onImageError()"
+    class="hidden"
+    alt="Trip background"
+  />
 
   <!-- Content overlay -->
   <div class="relative z-20 p-6 h-full flex flex-col justify-between text-white">
@@ -22,13 +32,14 @@
           class="px-4 py-2 rounded-full text-sm font-medium"
           [ngClass]="{
             'bg-green-500': trip.status === 'Completed',
+            'bg-yellow-500': trip.status === 'In Progress',
             'bg-red-500': trip.status === 'Canceled'
           }"
         >
           {{ trip.status }}
         </div>
 
-        <!-- Stars (moved here, right below status) -->
+        <!-- Stars -->
         <div class="flex space-x-1">
           <ng-container *ngFor="let star of starArray">
             <svg

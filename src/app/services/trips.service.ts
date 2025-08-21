@@ -135,7 +135,7 @@ export class TripsService {
 
   searchTrips(
     query?: string,
-    includeCancelled?: boolean,
+    statusFilter: 'Completed' | 'Cancelled' | 'Both' | 'All' = 'All',
     distance?: number,
     duration?: number,
     page?: number,
@@ -146,7 +146,7 @@ export class TripsService {
     let params = new HttpParams();
 
     if (query) params = params.set('q', query);
-    if (includeCancelled !== undefined) params = params.set('includeCancelled', includeCancelled);
+    if (statusFilter) params = params.set('statusFilter', statusFilter); // send enum string
     if (distance !== undefined) params = params.set('distance', distance);
     if (duration !== undefined) params = params.set('duration', duration);
     if (page !== undefined) params = params.set('page', page);
@@ -156,4 +156,5 @@ export class TripsService {
 
     return this.http.get<TripSearchResponse>(`${this.baseUrl}/search`, { params });
   }
+
 }

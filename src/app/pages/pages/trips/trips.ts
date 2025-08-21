@@ -51,21 +51,37 @@ export class Trips {
   }
 
   search(): void {
-    const includeCancelled = this.selectedStatus === 'Cancelled' || this.selectedStatus === 'All Trips';
+    // Map your UI selection to backend enum values
+    let statusFilter: 'Completed' | 'Cancelled' | 'Both' | 'All' = 'All';
+    switch (this.selectedStatus) {
+      case 'Completed':
+        statusFilter = 'Completed';
+        break;
+      case 'Cancelled':
+        statusFilter = 'Cancelled';
+        break;
+      case 'Completed & Cancelled':
+        statusFilter = 'Both';
+        break;
+      default:
+        statusFilter = 'All';
+    }
+
     const distanceMap = { 'any': undefined, 'under3': 0, '3to6': 1, '6to15': 2, 'over15': 3 };
     const durationMap = { 'any': undefined, 'under5': 0, '5to10': 1, '10to20': 2, 'over20': 3 };
+
     const distance = distanceMap[this.selectedDistance.replace(/\s+/g, '') as keyof typeof distanceMap];
     const duration = durationMap[this.selectedTime.replace(/\s+/g, '') as keyof typeof durationMap];
 
     this.tripsService.searchTrips(
       this.searchQuery,
-      includeCancelled,
+      statusFilter,
       distance,
       duration,
-      1, // Default page
-      10, // Default pageSize
-      'requestDate', // Default sortBy
-      false // Default sortDescending
+      1, // page
+      10, // pageSize
+      'requestDate', // sortBy
+      false // sortDescending
     ).subscribe({
       next: (response) => {
         if (response.success) {
@@ -82,4 +98,5 @@ export class Trips {
       }
     });
   }
+
 }
