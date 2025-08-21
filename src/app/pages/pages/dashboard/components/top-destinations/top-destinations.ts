@@ -2,12 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { NgForOf, NgIf } from '@angular/common';
-
-// Define interfaces to match your Next.js types
-interface Trip {
-  dropoff_location: string;
-  // Add other trip properties as needed
-}
+import {TopDestination, TripsService} from '../../../../../services/trips.service';
 
 interface Destination {
   location: string;
@@ -16,11 +11,8 @@ interface Destination {
 
 @Component({
   selector: 'app-top-destinations',
-  imports: [
-    BaseChartDirective,
-    NgForOf,
-    NgIf
-  ],
+  standalone: true,
+  imports: [BaseChartDirective, NgForOf, NgIf],
   templateUrl: './top-destinations.html',
   styleUrl: './top-destinations.css'
 })
@@ -28,7 +20,6 @@ export class TopDestinations implements OnInit {
   destinations: Destination[] = [];
   loading = true;
 
-  // Colors matching your Next.js version
   private colors = ["#6c63ff", "#ffcd56", "#ff6384"];
 
   doughnutChartData: ChartConfiguration<'doughnut'>['data'] = {
@@ -46,80 +37,48 @@ export class TopDestinations implements OnInit {
   doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
     cutout: '60%',
     plugins: {
-      legend: {
-        display: false
-      },
-      tooltip: {
-        enabled: false
-      }
+      legend: { display: false },
+      tooltip: { enabled: false }
     },
     maintainAspectRatio: false,
     responsive: true
   };
 
+  constructor(private tripsService: TripsService) {}
+
   ngOnInit() {
     this.fetchTopDestinations();
   }
 
-  private async fetchTopDestinations() {
-    try {
-      // Replace this with your actual data fetching logic
-      const trips: Trip[] = await this.fetchTrips();
+  private fetchTopDestinations() {
+    this.tripsService.getTopDestinations(3).subscribe({
+      next: (data: TopDestination[]) => {
+        const total = data.reduce((sum, d) => sum + d.count, 0);
 
-      const destinationCount: Record<string, number> = {};
+        this.destinations = data.map(d => ({
+          location: d.destination,
+          percentage: total > 0 ? Math.round((d.count / total) * 100) : 0
+        }));
 
-      trips.forEach((trip) => {
-        if (!destinationCount[trip.dropoff_location]) {
-          destinationCount[trip.dropoff_location] = 1;
-        } else {
-          destinationCount[trip.dropoff_location]++;
-        }
-      });
+        this.doughnutChartData = {
+          labels: this.destinations.map(dest => dest.location),
+          datasets: [
+            {
+              data: this.destinations.map(dest => dest.percentage),
+              backgroundColor: this.colors,
+              hoverBackgroundColor: this.colors,
+              borderWidth: 0
+            }
+          ]
+        };
 
-      const totalTrips = trips.length;
-      const sortedDestinations = Object.entries(destinationCount)
-        .map(([location, count]) => ({
-          location,
-          percentage: Math.round((count / totalTrips) * 100),
-        }))
-        .sort((a, b) => b.percentage - a.percentage)
-        .slice(0, 3);
-
-      this.destinations = sortedDestinations;
-
-      // Update chart data
-      this.doughnutChartData = {
-        labels: this.destinations.map((dest) => dest.location),
-        datasets: [
-          {
-            data: this.destinations.map((dest) => dest.percentage),
-            backgroundColor: this.colors,
-            hoverBackgroundColor: this.colors,
-            borderWidth: 0
-          }
-        ]
-      };
-
-      this.loading = false;
-    } catch (error) {
-      console.error('Error fetching trips data:', error);
-      this.loading = false;
-    }
-  }
-
-  // Mock function - replace with your actual data fetching service
-  private async fetchTrips(): Promise<Trip[]> {
-    // This should be replaced with your actual data fetching logic
-    // For now, returning mock data that matches your original structure
-    return Promise.resolve([
-      { dropoff_location: 'St James, Nairobi' },
-      { dropoff_location: 'St James, Nairobi' },
-      { dropoff_location: 'St James, Nairobi' },
-      { dropoff_location: 'Unnamed Road, Nairobi' },
-      { dropoff_location: 'Unnamed Road, Nairobi' },
-      { dropoff_location: 'Mombasa Road, Wambco Court, Nairobi' },
-      { dropoff_location: 'Mombasa Road, Wambco Court, Nairobi' },
-    ]);
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching top destinations:', err);
+        this.loading = false;
+      }
+    });
   }
 
   getColor(index: number): string {

@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import {Trip} from '../models/trip.interface';
 import {catchError, delay, Observable, of, retry} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 export interface OvertimeData {
   date: string;
   value: number;
+}
+
+export interface TopDestination {
+  destination: string;
+  count: number;
 }
 
 @Injectable({
@@ -101,6 +106,18 @@ export class TripsService {
       retry(2),
       catchError(error => {
         console.error('Error fetching trips over time:', error);
+        return of([]);
+      })
+    );
+  }
+
+  getTopDestinations(top: number = 3): Observable<TopDestination[]> {
+    const params = new HttpParams().set('top', top.toString());
+
+    return this.http.get<TopDestination[]>(`${this.baseUrl}/top-destinations`, { params }).pipe(
+      retry(2),
+      catchError(error => {
+        console.error('Error fetching top destinations:', error);
         return of([]);
       })
     );
