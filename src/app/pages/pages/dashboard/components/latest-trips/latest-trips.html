@@ -11,7 +11,7 @@
   <div *ngIf="loading" class="text-gray-400">Loading...</div>
 
   <!-- Trip list -->
-  <div *ngIf="!loading" class="flex-1 overflow-auto space-y-4">
+  <div *ngIf="!loading" class="flex-1 space-y-4">
     <div *ngFor="let trip of trips; index as i" class="flex justify-between items-center">
       <div class="flex items-center space-x-4">
         <!-- Number -->
@@ -22,7 +22,6 @@
         <!-- Location -->
         <div class="text-white text-sm font-bold">
           {{ trip.pickup }}
-<!--          → {{ trip.dropoff }}-->
         </div>
       </div>
 
