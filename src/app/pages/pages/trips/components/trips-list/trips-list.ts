@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Trip} from '../../../../../models/trip.interface';
-import {TripCard} from '../trip-card/trip-card';
-import {NgForOf, NgIf} from '@angular/common';
-import {TripsService} from '../../../../../services/trips.service';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Trip } from '../../../../../models/trip.interface';
+import { TripCard } from '../trip-card/trip-card';
+import { NgForOf, NgIf } from '@angular/common';
+import { TripsService } from '../../../../../services/trips.service';
 
 @Component({
   selector: 'app-trips-list',
@@ -17,6 +17,8 @@ import {TripsService} from '../../../../../services/trips.service';
 export class TripsList implements OnInit {
   trips: Trip[] = [];
   loading = true;
+
+  @Output() tripClicked = new EventEmitter<Trip>(); // Emit the clicked trip
 
   constructor(private tripsService: TripsService) {}
 
@@ -43,5 +45,6 @@ export class TripsList implements OnInit {
 
   onTripClick(trip: Trip): void {
     console.log('Trip clicked:', trip);
+    this.tripClicked.emit(trip); // Emit the trip when clicked
   }
 }

@@ -1,0 +1,184 @@
+<div class="bg-[#181819] min-h-screen pr-20">
+  <div class="max-w-6xl mx-auto">
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+      <!-- Left Side - Map -->
+      <div class="space-y-6">
+        <!-- Map Container -->
+        <div class="relative rounded-3xl overflow-hidden bg-white p-4">
+          <img
+            [src]="trip?.backgroundImage || 'https://via.placeholder.com/800x400'"
+            alt="Trip Route Map"
+            class="w-full h-80 object-cover rounded-2xl"
+          />
+        </div>
+
+        <!-- Driver and Car Info Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Driver Info Card -->
+          <div class="bg-gray-800 rounded-3xl p-6 border border-gray-700">
+            <div class="text-gray-400 text-sm font-medium mb-4 uppercase tracking-wider">
+              DRIVER INFO
+            </div>
+            <div class="bg-gray-700 rounded-2xl p-4 mb-4">
+              <img
+                src="https://via.placeholder.com/400x300"
+              alt="Driver Avatar"
+              class="w-full h-32 object-cover rounded-xl mb-4">
+              <div class="space-y-2">
+                <div class="text-gray-400 text-xs uppercase tracking-wider">
+                  DRIVER NAME
+                </div>
+                <div class="text-white font-semibold text-lg">
+                  Unknown Driver <!-- Replace with trip.driver.name if available -->
+                </div>
+                <div class="flex items-center space-x-2">
+                  <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                  <span class="text-white font-medium">0.0</span> <!-- Replace with trip.driver.rating if available -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Car Info Card -->
+          <div class="bg-gray-800 rounded-3xl p-6 border border-gray-700">
+            <div class="text-gray-400 text-sm font-medium mb-4 uppercase tracking-wider">
+              CAR INFO
+            </div>
+            <div class="bg-gray-700 rounded-2xl p-4 mb-4">
+              <img
+                src="https://via.placeholder.com/800x400"
+              alt="Car Image"
+              class="w-full h-32 object-cover rounded-xl mb-4">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <div class="text-gray-400 text-xs uppercase tracking-wider mb-1">
+                    MAKE/MODEL
+                  </div>
+                  <div class="text-white font-semibold">
+                    Unknown Model <!-- Replace with trip.car.makeModel if available -->
+                  </div>
+                </div>
+                <div>
+                  <div class="text-gray-400 text-xs uppercase tracking-wider mb-1">
+                    YEAR
+                  </div>
+                  <div class="text-white font-semibold">
+                    0000 <!-- Replace with trip.car.year if available -->
+                  </div>
+                </div>
+                <div>
+                  <div class="text-gray-400 text-xs uppercase tracking-wider mb-1">
+                    PLATE
+                  </div>
+                  <div class="text-white font-semibold">
+                    Unknown Plate <!-- Replace with trip.car.plate if available -->
+                  </div>
+                </div>
+                <div>
+                  <div class="text-gray-400 text-xs uppercase tracking-wider mb-1">
+                    COLOR
+                  </div>
+                  <div class="text-white font-semibold">
+                    Unknown Color <!-- Replace with trip.car.color if available -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side - Trip Details -->
+      <div class="space-y-6">
+        <!-- Header Section -->
+        <div class="flex justify-between items-start">
+          <div>
+            <div class="text-white text-2xl font-medium mb-2">
+              {{ trip?.date || 'Unknown Date' }} {{ trip?.time || 'Unknown Time' }}
+            </div>
+            <div class="flex space-x-1">
+              <ng-container *ngFor="let star of starArray">
+                <svg class="w-5 h-5"
+                     [ngClass]="{
+                       'text-yellow-400 fill-current': isStarFilled(star),
+                       'text-gray-400': !isStarFilled(star)
+                     }"
+                     viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+              </ng-container>
+            </div>
+          </div>
+          <div class="px-6 py-3 bg-green-500 rounded-full text-white font-medium">
+            {{ trip?.status || 'Unknown Status' }}
+          </div>
+        </div>
+
+        <!-- Price and Stats Section -->
+        <div class="grid grid-cols-3 gap-6">
+          <div>
+            <div class="text-gray-400 text-sm uppercase tracking-wider mb-2">
+              PRICE
+            </div>
+            <div class="text-white text-4xl font-bold">
+              KES {{ trip?.price || 0 }}
+            </div>
+          </div>
+          <div>
+            <div class="text-gray-400 text-sm uppercase tracking-wider mb-2">
+              DURATION
+            </div>
+            <div class="text-white text-2xl font-semibold">
+              Unknown Duration <!-- Replace with trip.duration if available -->
+            </div>
+          </div>
+          <div>
+            <div class="text-gray-400 text-sm uppercase tracking-wider mb-2">
+              DISTANCE
+            </div>
+            <div class="text-white text-2xl font-semibold">
+              {{ trip?.distance || '0 KM' }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Locations Section -->
+        <div class="space-y-4">
+          <!-- Pickup Location -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <div class="w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+              <div>
+                <div class="text-white font-medium">
+                  {{ trip?.startLocation || 'Unknown Pickup' }}
+                </div>
+              </div>
+            </div>
+            <div class="text-gray-400 font-medium">
+              Unknown Pickup Time <!-- Replace with trip.pickupTime if available -->
+            </div>
+          </div>
+
+          <!-- Dropoff Location -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <div class="w-4 h-4 bg-red-500 rounded-full border-2 border-white"></div>
+              <div>
+                <div class="text-white font-medium">
+                  {{ trip?.endLocation || 'Unknown Dropoff' }}
+                </div>
+              </div>
+            </div>
+            <div class="text-gray-400 font-medium">
+              Unknown Dropoff Time <!-- Replace with trip.dropoffTime if available -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

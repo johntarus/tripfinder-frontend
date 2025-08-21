@@ -1,0 +1,8 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.grid-cols-3 > div:first-child .text-4xl {
+  line-height: 1;
+}
