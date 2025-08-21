@@ -1,0 +1,41 @@
+<!-- top-destinations.html - Exactly matching Next.js version -->
+<div class="bg-[#181819] rounded-lg p-6 h-full border-2 border-[#50465b]"
+     style="border-radius: 60px">
+  <h3 class="text-white text-2xl font-semibold mb-4 pt-6 pl-6">
+    Top 3 Destinations
+  </h3>
+
+  <div *ngIf="loading" class="text-white">Loading...</div>
+
+  <div *ngIf="!loading" class="flex items-center">
+    <!-- Donut chart container -->
+    <div class="flex justify-start items-center" style="width: 200px">
+      <canvas baseChart
+              [data]="doughnutChartData"
+              [options]="doughnutChartOptions"
+              [type]="'doughnut'"
+              class="w-full h-full">
+      </canvas>
+    </div>
+
+    <!-- Legend with progress bars -->
+    <div class="flex-1 text-sm text-gray-300 ml-4">
+      <div *ngFor="let dest of destinations; let i = index" class="mb-2">
+        <span class="block text-lg text-[#b8b5b5] font-semibold">
+          {{ dest.location }}
+        </span>
+        <div class="flex flex-col">
+          <div class="w-24 bg-white rounded-full h-2" style="margin: 0.325rem 0">
+            <div class="h-2 rounded-full"
+                 [style.width.%]="dest.percentage"
+                 [style.backgroundColor]="getColor(i)">
+            </div>
+          </div>
+          <h1 class="text-white text-lg font-semibold">
+            {{ dest.percentage }}%
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

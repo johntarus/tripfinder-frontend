@@ -1,0 +1,154 @@
+<div class="flex h-screen bg-[#181819] text-white">
+  <!-- Sidebar -->
+  <app-sidebar class="bg-[#181819] h-full"></app-sidebar>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col overflow-y-auto">
+    <!-- App Header -->
+    <app-header class="pr-20"></app-header>
+
+    <!-- Search Filter Card -->
+    <div class="relative px-10 -mt-20">
+      <div class="w-1/2 p-8 text-white bg-[#181819] rounded-lg">
+        <!-- Keyword -->
+        <h3 class="text-sm text-gray-400 font-thin mb-6 mr-10">KEYWORD</h3>
+        <div class="relative w-full mb-10">
+          <input
+            type="text"
+            placeholder="Search by distance, duration, keyword..."
+            class="w-full px-12 py-5 rounded-[20px] bg-[#2c2c2e] text-gray-200 placeholder-gray-500 focus:outline-none"
+          />
+          <!-- Search Icon -->
+          <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+            <svg
+              class="w-6 h-6 text-gray-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-4.35-4.35M8.5 15.5a7 7 0 1110.26-9.76 7 7 0 01-10.26 9.76z"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Status Filter -->
+        <div class="mb-10">
+          <h3 class="text-sm text-gray-400 font-thin mb-4 mr-10">STATUS</h3>
+          <div class="flex p-3 w-[90%] bg-[#2c2c2e] rounded-[20px] gap-4">
+            <button
+              *ngFor="let status of ['All Trips', 'Completed', 'Cancelled']"
+              (click)="selectedStatus = status"
+              [ngClass]="
+        selectedStatus === status
+          ? 'bg-[#8B5CF6] text-white'
+          : 'bg-[#2c2c2e] text-gray-400'
+      "
+              class="px-7 py-3 text-sm font-semibold rounded-[15px] leading-none"
+            >
+              {{ status }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Distance and Time Filters -->
+        <div class="grid grid-cols-2 gap-30 mb-16">
+          <!-- Distance -->
+          <div class="px-6 w-[17rem] py-10 border-2 border-[#8B5CF6]" style="border-radius:30px;">
+            <p class="text-xs text-gray-400 font-normal mb-4 ml-0">DISTANCE</p>
+            <ul class="space-y-3">
+              <li>
+                <label class="flex items-center space-x-2 py-1 cursor-pointer">
+                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <span class="text-white text-bold text-md">Any</span>
+                </label>
+              </li>
+              <li>
+                <label class="flex items-center space-x-2 py-1 cursor-pointer">
+                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <span class="text-white text-bold text-md">Under 3 Km</span>
+                </label>
+              </li>
+              <li>
+                <label class="flex items-center space-x-2 py-1 cursor-pointer">
+                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <span class="text-white text-bold text-md">3 to 6 Km</span>
+                </label>
+              </li>
+              <li>
+                <label class="flex items-center space-x-2 py-1 cursor-pointer">
+                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <span class="text-white text-bold text-md">6 to 15 Km</span>
+                </label>
+              </li>
+              <li>
+                <label class="flex items-center space-x-2 py-1 cursor-pointer">
+                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <span class="text-white text-bold text-md">More than 15 Km</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Time -->
+          <div class="px-6 w-[17rem] py-8 border-2 border-[#8B5CF6]" style="border-radius:30px;">
+            <p class="text-xs text-gray-400 font-normal mb-4 ml-0">TIME</p>
+            <ul class="space-y-3">
+              <li>
+                <label class="flex items-center py-1 space-x-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="time"
+                    value="option"
+                    class="relative float-left mfe-1 mt-0.5 h-5.5 w-5.5 appearance-none rounded-full border-2 border-solid after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:bg-[#8B5CF6] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04]  dark:border-[#8B5CF6] "
+                  />
+                  <span class="text-white text-bold text-md">
+      Any
+    </span>
+                </label>
+              </li>
+
+
+              <li>
+                <label class="flex items-center space-x-2 py-1 cursor-pointer">
+                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <span class="text-white text-bold text-md">Under 5 min</span>
+                </label>
+              </li>
+              <li>
+                <label class="flex items-center space-x-2 py-1 cursor-pointer">
+                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <span class="text-white text-bold text-md">5 to 10 min</span>
+                </label>
+              </li>
+              <li>
+                <label class="flex items-center space-x-2 py-1 cursor-pointer">
+                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <span class="text-white text-bold text-md">10 to 20 min</span>
+                </label>
+              </li>
+              <li>
+                <label class="flex items-center space-x-2 py-1 cursor-pointer">
+                  <input type="radio" class="h-5 w-5 rounded-full border-2 border-gray-500"/>
+                  <span class="text-white text-bold text-md">More than 20 min</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Search Button -->
+        <div class="text-center">
+          <button class="bg-[#8B5CF6] text-white px-24 py-4 rounded-2xl text-xl font-semibold">
+            SEARCH
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="flex flex-col h-full">
+  <!-- Heading above the card -->
+  <h2 class="text-3xl font-bold mb-6 flex-none">
+    Trips over time
+  </h2>
+
+  <!-- Card fills remaining height -->
+  <div class="trips_container bg-[#1a1a1b] p-6 rounded-2xl shadow-md border-2 border-[#50465b] flex flex-col flex-1" [style.border-radius.px]="60">
+    <div class="flex-1 relative overflow-hidden">
+      <div class="w-full h-full">
+        <canvas baseChart
+                [data]="lineChartData"
+                [options]="lineChartOptions"
+                [type]="'line'"
+                class="max-w-full max-h-full">
+        </canvas>
+      </div>
+      <!-- Current value indicator -->
+      <div class="absolute top-4 right-4 bg-[#8B5CF6] text-white px-3 py-1 rounded-lg text-sm font-medium">
+        3,997
+      </div>
+    </div>
+  </div>
+</div>

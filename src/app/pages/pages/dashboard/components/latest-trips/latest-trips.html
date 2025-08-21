@@ -1,0 +1,31 @@
+<div class="bg-[#1a1a1b] p-6 rounded-2xl shadow-md flex flex-col h-full">
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-4 flex-none">
+    <h2 class="text-white text-2xl font-bold">Latest Trips</h2>
+    <a href="#" class="text-purple-400 text-sm hover:underline transition-colors">
+      See all
+    </a>
+  </div>
+
+  <!-- Trip list -->
+  <div class="flex-1 overflow-auto space-y-4">
+    <div *ngFor="let trip of trips; index as i" class="flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <!-- Number -->
+        <span class="text-[#FFCC67] text-5xl font-bold w-12 text-center">
+          {{ i + 1 }}
+        </span>
+
+        <!-- Location -->
+        <div class="text-white text-sm font-bold">
+          {{ trip.location }}
+        </div>
+      </div>
+
+      <!-- Date -->
+      <span class="text-gray-500 text-sm font-bold">
+        {{ trip.date }}
+      </span>
+    </div>
+  </div>
+</div>
