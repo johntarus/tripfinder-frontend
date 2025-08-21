@@ -1,21 +1,25 @@
-import { Component } from '@angular/core';
-import {BaseChartDirective} from 'ng2-charts';
-import {ChartConfiguration} from 'chart.js';
+import { Component, OnInit } from '@angular/core';
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartConfiguration } from 'chart.js';
+import {DecimalPipe, NgIf} from '@angular/common';
+import { OvertimeData, TripsService } from '../../../../../services/trips.service';
 
 @Component({
   selector: 'app-trips-over-time',
   imports: [
-    BaseChartDirective
+    BaseChartDirective,
+    NgIf,
+    DecimalPipe
   ],
   templateUrl: './trips-over-time.html',
   styleUrl: './trips-over-time.css'
 })
-export class TripsOverTime {
+export class TripsOverTime implements OnInit {
   lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [
       {
-        data: [500, 1200, 1700, 1900, 3000, 4800, 4000, 3700, 3200, 2800, 3997, 3500],
+        data: [],
         borderColor: '#8B5CF6',
         backgroundColor: 'rgba(139,92,246,0.1)',
         fill: false,
@@ -31,7 +35,7 @@ export class TripsOverTime {
 
   lineChartOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
-    maintainAspectRatio: false, // Important for flexible height
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false }
     },
@@ -42,7 +46,7 @@ export class TripsOverTime {
         border: { display: false }
       },
       y: {
-        display: false // Hide Y axis completely like in design
+        display: false
       }
     },
     interaction: {
@@ -50,4 +54,47 @@ export class TripsOverTime {
       mode: 'index'
     }
   };
+
+  isLoading = true;
+  currentValue = 0;
+
+  constructor(private tripsService: TripsService) {}
+
+  ngOnInit(): void {
+    this.loadTripsOverTimeData();
+  }
+
+  loadTripsOverTimeData(): void {
+    this.tripsService.getTripsOverTime().subscribe({
+      next: (data: OvertimeData[]) => {
+        this.processChartData(data);
+        this.isLoading = false;
+      },
+      error: (error: any) => {
+        console.error('Error loading trips over time data:', error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  processChartData(data: OvertimeData[]): void {
+    if (data.length === 0) {
+      // Fallback to default data if API returns empty array
+      this.lineChartData.datasets[0].data = [500, 1200, 1700, 1900, 3000, 4800, 4000, 3700, 3200, 2800, 3997, 3500];
+      this.currentValue = 3997;
+      return;
+    }
+
+    const monthlyData = new Array(12).fill(0);
+
+    data.forEach(item => {
+      const date = new Date(item.date);
+      const monthIndex = date.getMonth(); // 0-11
+      monthlyData[monthIndex] = item.value;
+    });
+
+    this.currentValue = monthlyData[monthlyData.length - 1] || (data.length > 0 ? data[data.length - 1].value : 0);
+
+    this.lineChartData.datasets[0].data = monthlyData;
+  }
 }

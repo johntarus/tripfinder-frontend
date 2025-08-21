@@ -1,11 +1,22 @@
 import { Injectable } from '@angular/core';
 import {Trip} from '../models/trip.interface';
-import {delay, Observable, of} from 'rxjs';
+import {catchError, delay, Observable, of, retry} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+
+export interface OvertimeData {
+  date: string;
+  value: number;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class TripsService {
+  private baseUrl = 'http://localhost:5104/api/trips';
+
+  constructor(private http: HttpClient) {
+  }
+
   private mockTrips: Trip[] = [
     {
       id: '1',
@@ -81,38 +92,17 @@ export class TripsService {
     }
   ];
 
-  constructor() {}
-
   getTrips(): Observable<Trip[]> {
-    // Simulate API call with delay
     return of(this.mockTrips).pipe(delay(1000));
   }
 
-  getTripById(id: string): Observable<Trip | undefined> {
-    const trip = this.mockTrips.find(t => t.id === id);
-    return of(trip).pipe(delay(500));
-  }
-
-  // Add more methods as needed
-  addTrip(trip: Trip): Observable<Trip> {
-    this.mockTrips.push(trip);
-    return of(trip).pipe(delay(500));
-  }
-
-  updateTrip(trip: Trip): Observable<Trip> {
-    const index = this.mockTrips.findIndex(t => t.id === trip.id);
-    if (index !== -1) {
-      this.mockTrips[index] = trip;
-    }
-    return of(trip).pipe(delay(500));
-  }
-
-  deleteTrip(id: string): Observable<boolean> {
-    const index = this.mockTrips.findIndex(t => t.id === id);
-    if (index !== -1) {
-      this.mockTrips.splice(index, 1);
-      return of(true).pipe(delay(500));
-    }
-    return of(false).pipe(delay(500));
+  getTripsOverTime(): Observable<OvertimeData[]> {
+    return this.http.get<OvertimeData[]>(`${this.baseUrl}/overtime`).pipe(
+      retry(2),
+      catchError(error => {
+        console.error('Error fetching trips over time:', error);
+        return of([]);
+      })
+    );
   }
 }
