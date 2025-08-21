@@ -1,0 +1,118 @@
+import { Injectable } from '@angular/core';
+import {Trip} from '../models/trip.interface';
+import {delay, Observable, of} from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TripsService {
+  private mockTrips: Trip[] = [
+    {
+      id: '1',
+      date: 'Tue Oct 22, 2024',
+      time: '2:15 PM',
+      status: 'Complete',
+      rating: 5,
+      startLocation: 'St James, Nairobi',
+      endLocation: 'Nextgen Mall, Nairobi',
+      price: 253,
+      distance: '1.5 KM',
+      backgroundImage: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    },
+    {
+      id: '2',
+      date: 'Fri Aug 9, 2019',
+      time: '6:45 AM',
+      status: 'Complete',
+      rating: 0,
+      startLocation: 'Manyanja, Nairobi',
+      endLocation: 'St James, Nairobi',
+      price: 894,
+      distance: '15.5 KM',
+      backgroundImage: 'https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    },
+    {
+      id: '3',
+      date: 'Wed Aug 7, 2019',
+      time: '4:35 PM',
+      status: 'Canceled',
+      rating: 0,
+      startLocation: 'Bandari, Nairobi',
+      endLocation: 'New Apostolic Church, Nairobi',
+      price: 0,
+      distance: '0.0 KM',
+      backgroundImage: 'https://images.unsplash.com/photo-1570126618953-d437176e8c79?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    },
+    {
+      id: '4',
+      date: 'Wed Aug 7, 2019',
+      time: '4:15 PM',
+      status: 'Complete',
+      rating: 0,
+      startLocation: 'St James, Nairobi',
+      endLocation: 'Amboseli Estate, Nairobi',
+      price: 200,
+      distance: '2.1 KM',
+      backgroundImage: 'https://images.unsplash.com/photo-1555109307-f7d9da25c244?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    },
+    {
+      id: '5',
+      date: 'Wed Aug 7, 2019',
+      time: '11:29 PM',
+      status: 'Complete',
+      rating: 0,
+      startLocation: 'Makaburini, Nairobi',
+      endLocation: 'St James, Nairobi',
+      price: 440,
+      distance: '9.1 KM',
+      backgroundImage: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    },
+    {
+      id: '6',
+      date: 'Wed Aug 6, 2019',
+      time: '10:03 PM',
+      status: 'Complete',
+      rating: 5,
+      startLocation: 'Phase 4/Car Wash, Nairobi',
+      endLocation: 'Unnamed Road, Nairobi',
+      price: 200,
+      distance: '1.3 KM',
+      backgroundImage: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    }
+  ];
+
+  constructor() {}
+
+  getTrips(): Observable<Trip[]> {
+    // Simulate API call with delay
+    return of(this.mockTrips).pipe(delay(1000));
+  }
+
+  getTripById(id: string): Observable<Trip | undefined> {
+    const trip = this.mockTrips.find(t => t.id === id);
+    return of(trip).pipe(delay(500));
+  }
+
+  // Add more methods as needed
+  addTrip(trip: Trip): Observable<Trip> {
+    this.mockTrips.push(trip);
+    return of(trip).pipe(delay(500));
+  }
+
+  updateTrip(trip: Trip): Observable<Trip> {
+    const index = this.mockTrips.findIndex(t => t.id === trip.id);
+    if (index !== -1) {
+      this.mockTrips[index] = trip;
+    }
+    return of(trip).pipe(delay(500));
+  }
+
+  deleteTrip(id: string): Observable<boolean> {
+    const index = this.mockTrips.findIndex(t => t.id === id);
+    if (index !== -1) {
+      this.mockTrips.splice(index, 1);
+      return of(true).pipe(delay(500));
+    }
+    return of(false).pipe(delay(500));
+  }
+}
