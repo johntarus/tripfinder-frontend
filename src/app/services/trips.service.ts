@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Trip} from '../models/trip.interface';
 import {catchError, delay, Observable, of, retry} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {TLatestTripData} from '../models/latest-trip.interface';
 
 export interface OvertimeData {
   date: string;
@@ -121,5 +122,9 @@ export class TripsService {
         return of([]);
       })
     );
+  }
+
+  getLatestTrips(count: number = 5): Observable<TLatestTripData[]> {
+    return this.http.get<TLatestTripData[]>(`${this.baseUrl}/latest?count=${count}`);
   }
 }
