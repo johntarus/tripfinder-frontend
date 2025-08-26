@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
-import {DecimalPipe, NgIf} from '@angular/common';
+import {NgIf} from '@angular/common';
 import { OvertimeData, TripsService } from '../../../../../services/trips.service';
+import {MONTH_LABELS} from '../../../../../utils/date.util';
 
 @Component({
   selector: 'app-trips-over-time',
   imports: [
     BaseChartDirective,
     NgIf,
-    DecimalPipe
   ],
   templateUrl: './trips-over-time.html',
   styleUrl: './trips-over-time.css'
 })
 export class TripsOverTime implements OnInit {
   lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    labels: MONTH_LABELS,
     datasets: [
       {
         data: [],

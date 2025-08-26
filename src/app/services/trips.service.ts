@@ -4,6 +4,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {TLatestTripData} from '../models/latest-trip.interface';
 import {TripSearchResponse} from '../models/trip-search-response.interface';
 import {Trip} from '../models/trip.interface';
+import {environment} from '../../../environments/environment';
 
 export interface OvertimeData {
   date: string;
@@ -19,7 +20,7 @@ export interface TopDestination {
   providedIn: 'root'
 })
 export class TripsService {
-  private baseUrl = 'http://localhost:5104/api/trips';
+  private baseUrl = `${environment.apiBaseUrl}/trips`;
 
   constructor(private http: HttpClient) {
   }

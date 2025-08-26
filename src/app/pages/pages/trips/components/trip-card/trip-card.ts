@@ -40,13 +40,12 @@ export class TripCard implements OnInit {
   }
 
   generateBackgroundImage(): void {
-    // Curated list of Unsplash URLs with African wildlife and Nairobi themes
     const wildlifeNairobiImages = [
-      'https://images.unsplash.com/photo-1565717655296-0d2a966b52e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Nairobi National Park
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Wildlife in Kenya
-      'https://images.unsplash.com/photo-1593368496242-3b7594e8b662?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // African savanna with city view
-      'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Nairobi skyline with wildlife
-      'https://images.unsplash.com/photo-1556075798-4827b2a16e2e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'  // Kenyan wildlife
+      'https://images.unsplash.com/photo-1565717655296-0d2a966b52e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1593368496242-3b7594e8b662?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1556075798-4827b2a16e2e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
     ];
 
     const seed = this.trip?.id || Math.floor(Math.random() * 1000);

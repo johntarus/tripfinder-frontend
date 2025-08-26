@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { NgForOf, NgIf } from '@angular/common';
-import {TopDestination, TripsService} from '../../../../../services/trips.service';
+import { TopDestination, TripsService } from '../../../../../services/trips.service';
+import { CHART_COLORS } from '../../../../../utils/chart-colors.util';
+import { calculatePercentage } from '../../../../../utils/percentage.util';
+import { DEFAULT_DOUGHNUT_OPTIONS } from '../../../../../utils/chart-options.util';
 
 interface Destination {
   location: string;
@@ -20,29 +23,14 @@ export class TopDestinations implements OnInit {
   destinations: Destination[] = [];
   loading = true;
 
-  private colors = ["#6c63ff", "#ffcd56", "#ff6384"];
-
   doughnutChartData: ChartConfiguration<'doughnut'>['data'] = {
     labels: [],
     datasets: [
-      {
-        data: [],
-        backgroundColor: this.colors,
-        hoverBackgroundColor: this.colors,
-        borderWidth: 0
-      }
+      { data: [], backgroundColor: CHART_COLORS, hoverBackgroundColor: CHART_COLORS, borderWidth: 0 }
     ]
   };
 
-  doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
-    cutout: '60%',
-    plugins: {
-      legend: { display: false },
-      tooltip: { enabled: false }
-    },
-    maintainAspectRatio: false,
-    responsive: true
-  };
+  doughnutChartOptions = DEFAULT_DOUGHNUT_OPTIONS;
 
   constructor(private tripsService: TripsService) {}
 
@@ -57,7 +45,7 @@ export class TopDestinations implements OnInit {
 
         this.destinations = data.map(d => ({
           location: d.destination,
-          percentage: total > 0 ? Math.round((d.count / total) * 100) : 0
+          percentage: calculatePercentage(d.count, total)
         }));
 
         this.doughnutChartData = {
@@ -65,8 +53,8 @@ export class TopDestinations implements OnInit {
           datasets: [
             {
               data: this.destinations.map(dest => dest.percentage),
-              backgroundColor: this.colors,
-              hoverBackgroundColor: this.colors,
+              backgroundColor: CHART_COLORS,
+              hoverBackgroundColor: CHART_COLORS,
               borderWidth: 0
             }
           ]
@@ -82,6 +70,6 @@ export class TopDestinations implements OnInit {
   }
 
   getColor(index: number): string {
-    return this.colors[index];
+    return CHART_COLORS[index];
   }
 }
