@@ -5,6 +5,7 @@
   </h3>
 
   <div *ngIf="loading" class="text-white">Loading...</div>
+  <div *ngIf="!loading && destinations.length === 0" class="text-center text-gray-400">No destination found</div>
 
   <div *ngIf="!loading" class="flex items-center">
     <div class="flex justify-start items-center" style="width: 200px">

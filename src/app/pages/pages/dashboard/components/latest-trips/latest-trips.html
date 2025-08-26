@@ -9,6 +9,9 @@
   <div *ngIf="loading" class="text-gray-400">Loading...</div>
 
   <div *ngIf="!loading" class="flex-1 space-y-4">
+    <div *ngIf="trips.length === 0" class="text-center text-gray-400">
+      No trips found
+    </div>
     <div *ngFor="let trip of trips; index as i" class="flex justify-between items-center">
       <div class="flex items-center space-x-4">
         <span class="text-[#FFCC67] text-5xl font-bold w-12 text-center">

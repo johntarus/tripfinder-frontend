@@ -79,7 +79,6 @@ export class TripsOverTime implements OnInit {
 
   processChartData(data: OvertimeData[]): void {
     if (data.length === 0) {
-      // Fallback to default data if API returns empty array
       this.lineChartData.datasets[0].data = [500, 1200, 1700, 1900, 3000, 4800, 4000, 3700, 3200, 2800, 3997, 3500];
       this.currentValue = 3997;
       return;
