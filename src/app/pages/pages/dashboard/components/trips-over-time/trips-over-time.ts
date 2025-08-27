@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 import {NgIf} from '@angular/common';
-import { OvertimeData, TripsService } from '../../../../../services/trips.service';
 import {MONTH_LABELS} from '../../../../../utils/date.util';
+import {TripsService} from '../../../../../services/trips.service';
+import {OvertimeData} from '../../../../../models/overtime-data.interface';
 
 @Component({
   selector: 'app-trips-over-time',

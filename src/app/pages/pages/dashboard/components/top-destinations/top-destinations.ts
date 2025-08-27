@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { NgForOf, NgIf } from '@angular/common';
-import { TopDestination, TripsService } from '../../../../../services/trips.service';
+import {  TripsService } from '../../../../../services/trips.service';
 import { CHART_COLORS } from '../../../../../utils/chart-colors.util';
 import { calculatePercentage } from '../../../../../utils/percentage.util';
 import { DEFAULT_DOUGHNUT_OPTIONS } from '../../../../../utils/chart-options.util';
+import {TopDestination} from '../../../../../models/top-destinations.interface';
 
 interface Destination {
   location: string;

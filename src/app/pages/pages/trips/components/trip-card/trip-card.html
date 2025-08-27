@@ -39,9 +39,12 @@
             <svg
               class="w-5 h-5"
               [ngClass]="{
-                'text-yellow-400 fill-current': isStarFilled(star),
-                'text-gray-400': !isStarFilled(star)
-              }"
+      'text-yellow-400': isStarFilled(star),
+      'text-gray-300': !isStarFilled(star)
+    }"
+              [attr.fill]="isStarFilled(star) ? 'currentColor' : 'none'"
+              [attr.stroke]="!isStarFilled(star) ? 'currentColor' : 'none'"
+              stroke-width="1.5"
               viewBox="0 0 20 20"
             >
               <path
