@@ -6,11 +6,12 @@ import { Trip } from '../../../../../models/trip.interface';
 import { TripsService } from '../../../../../services/trips.service';
 import { OvertimeData } from '../../../../../models/overtime-data.interface';
 import { TopDestination } from '../../../../../models/top-destinations.interface';
+import {environment} from '../../../../../../../environments/environment';
 
 describe('TripsService', () => {
   let service: TripsService;
   let httpMock: HttpTestingController;
-  const baseUrl = 'http://localhost:5001/api/trips';
+  const baseUrl = `${environment.apiBaseUrl}/trips`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,8 +38,7 @@ describe('TripsService', () => {
       expect(data).toEqual(mockData);
     });
 
-    // Use exact URL that the service is calling
-    const req = httpMock.expectOne('http://localhost:5001/api/trips/overtime');
+    const req = httpMock.expectOne(`${baseUrl}/overtime`);
     expect(req.request.method).toBe('GET');
     req.flush(mockData);
   });
@@ -55,8 +55,7 @@ describe('TripsService', () => {
       expect(data[0].destination).toBe('Nairobi');
     });
 
-    // Use exact URL that the service is calling
-    const req = httpMock.expectOne('http://localhost:5001/api/trips/top-destinations?top=2');
+    const req = httpMock.expectOne(`${baseUrl}/top-destinations?top=2`);
     expect(req.request.method).toBe('GET');
     req.flush(mockData);
   });
@@ -86,8 +85,7 @@ describe('TripsService', () => {
       expect(data[0].driverName).toBe('John Doe');
     });
 
-    // Use exact URL that the service is calling
-    const req = httpMock.expectOne('http://localhost:5001/api/trips/latest?count=1');
+    const req = httpMock.expectOne(`${baseUrl}/latest?count=1`);
     expect(req.request.method).toBe('GET');
     req.flush(mockData);
   });
@@ -124,8 +122,7 @@ describe('TripsService', () => {
       expect(trip.driverName).toBe('Jane Doe');
     });
 
-    // Use exact URL that the service is calling
-    const req = httpMock.expectOne('http://localhost:5001/api/trips/1');
+    const req = httpMock.expectOne(`${baseUrl}/1`);
     expect(req.request.method).toBe('GET');
     req.flush(mockTrip);
   });
@@ -179,7 +176,7 @@ describe('TripsService', () => {
     });
 
     // Use the exact URL string that appears in the error message
-    const req = httpMock.expectOne('http://localhost:5001/api/trips/search?q=CBD&statusFilter=Completed&distance=10&duration=20&page=1&pageSize=10&sortBy=date&sortDescending=true');
+    const req = httpMock.expectOne(`${baseUrl}/search?q=CBD&statusFilter=Completed&distance=10&duration=20&page=1&pageSize=10&sortBy=date&sortDescending=true`);
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
   });

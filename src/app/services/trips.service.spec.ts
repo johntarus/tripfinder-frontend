@@ -6,11 +6,12 @@ import { TripSearchResponse } from '../models/trip-search-response.interface';
 import { Trip } from '../models/trip.interface';
 import {OvertimeData} from '../models/overtime-data.interface';
 import {TopDestination} from '../models/top-destinations.interface';
+import {environment} from '../../../environments/environment';
 
 describe('TripsService', () => {
   let service: TripsService;
   let httpMock: HttpTestingController;
-  const baseUrl = 'http://localhost:5001/api/trips';
+const baseUrl = `${environment.apiBaseUrl}/trips`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
