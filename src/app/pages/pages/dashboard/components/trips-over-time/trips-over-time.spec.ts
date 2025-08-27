@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TripsOverTime } from './trips-over-time';
-import { TripsService, OvertimeData } from '../../../../../services/trips.service';
+import { TripsService } from '../../../../../services/trips.service';
 import { of } from 'rxjs';
 import { Chart, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip } from 'chart.js';
+import {OvertimeData} from '../../../../../models/overtime-data.interface';
 
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip);
 
