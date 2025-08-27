@@ -4,7 +4,6 @@ import { Trip } from '../../../../../models/trip.interface';
 import { TripsService } from '../../../../../services/trips.service';
 import * as L from 'leaflet';
 
-// ✅ Import utils
 import { STAR_ARRAY, isStarFilled } from '../../../../../utils/rating.utils';
 import {formatTimeToHHMM} from '../../../../../utils/date.util';
 import {DEFAULT_ERROR_TRIP} from '../../../../../utils/utils/trip.utils';
@@ -23,7 +22,6 @@ export class TripDetail implements OnInit, AfterViewInit {
 
   private map!: L.Map;
 
-  // ⭐ Rating helpers
   starArray = STAR_ARRAY;
   isStarFilled = (star: number) => isStarFilled(this.tripData?.driverRating || 0, star);
 

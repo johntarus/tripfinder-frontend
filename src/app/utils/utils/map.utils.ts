@@ -26,10 +26,10 @@ export function initTripMap(containerId: string, pickup: any, dropoff: any): L.M
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-  const pickupIcon = createCustomIcon('text-green-500', pickup.label);
+  const pickupIcon = createCustomIcon('text-4xl text-green-500', pickup.label);
   L.marker([pickup.lat, pickup.lng], { icon: pickupIcon }).addTo(map);
 
-  const dropoffIcon = createCustomIcon('text-red-500', dropoff.label);
+  const dropoffIcon = createCustomIcon('text-4xl text-red-500', dropoff.label);
   L.marker([dropoff.lat, dropoff.lng], { icon: dropoffIcon }).addTo(map);
 
   const bounds = L.latLngBounds([
