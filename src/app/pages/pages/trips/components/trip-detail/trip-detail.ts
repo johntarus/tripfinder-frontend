@@ -1,18 +1,17 @@
 import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
-import { NgClass, NgForOf } from '@angular/common';
+import {DatePipe, NgClass, NgForOf} from '@angular/common';
 import { Trip } from '../../../../../models/trip.interface';
 import { TripsService } from '../../../../../services/trips.service';
 import * as L from 'leaflet';
 
 import { STAR_ARRAY, isStarFilled } from '../../../../../utils/rating.utils';
-import {formatTimeToHHMM} from '../../../../../utils/date.util';
 import {DEFAULT_ERROR_TRIP} from '../../../../../utils/utils/trip.utils';
 import {initTripMap} from '../../../../../utils/utils/map.utils';
 
 @Component({
   selector: 'app-trip-detail',
   standalone: true,
-  imports: [NgClass, NgForOf],
+  imports: [NgClass, NgForOf, DatePipe],
   templateUrl: './trip-detail.html',
   styleUrl: './trip-detail.css'
 })
@@ -47,10 +46,6 @@ export class TripDetail implements OnInit, AfterViewInit {
         this.tripData = DEFAULT_ERROR_TRIP;
       }
     });
-  }
-
-  getPickupTimeOnly(time?: string): string {
-    return formatTimeToHHMM(time);
   }
 
   private initMap(): void {

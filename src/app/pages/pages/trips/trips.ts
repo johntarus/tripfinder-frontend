@@ -77,7 +77,6 @@ export class Trips {
         statusFilter = 'All';
     }
 
-    // Maps
     const distanceMap = {
       any: undefined,
       under3: 0,

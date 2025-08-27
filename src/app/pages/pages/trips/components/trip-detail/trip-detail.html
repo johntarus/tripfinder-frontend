@@ -68,7 +68,7 @@
               </p>
             </div>
             <p class="text-md font-semibold text-gray-300">
-              {{ getPickupTimeOnly(tripData?.pickUpTime) }}
+              {{ tripData?.pickupTime | date:'h:mm a'}}
             </p>
           </div>
 
@@ -84,7 +84,7 @@
               </p>
             </div>
             <p class="text-md font-semibold text-gray-300">
-              {{ getPickupTimeOnly(tripData?.dropOffTime) }}
+              {{ tripData?.dropoffTime | date:'h:mm a' }}
             </p>
           </div>
         </div>
