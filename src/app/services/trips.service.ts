@@ -5,16 +5,8 @@ import {TLatestTripData} from '../models/latest-trip.interface';
 import {TripSearchResponse} from '../models/trip-search-response.interface';
 import {Trip} from '../models/trip.interface';
 import {environment} from '../../../environments/environment';
-
-export interface OvertimeData {
-  date: string;
-  value: number;
-}
-
-export interface TopDestination {
-  destination: string;
-  count: number;
-}
+import {TopDestination} from '../models/top-destinations.interface';
+import {OvertimeData} from '../models/overtime-data.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -68,7 +60,7 @@ export class TripsService {
     let params = new HttpParams();
 
     if (query) params = params.set('q', query);
-    if (statusFilter) params = params.set('statusFilter', statusFilter); // send enum string
+    if (statusFilter) params = params.set('statusFilter', statusFilter);
     if (distance !== undefined) params = params.set('distance', distance);
     if (duration !== undefined) params = params.set('duration', duration);
     if (page !== undefined) params = params.set('page', page);
