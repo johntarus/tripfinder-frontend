@@ -6,6 +6,7 @@ export interface Trip {
   requestDate: string;
   status: string;
   distance: number;
+  year: number;
   duration: number;
   fare: number;
 

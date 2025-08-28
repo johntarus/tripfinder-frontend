@@ -22,5 +22,6 @@ export const DEFAULT_ERROR_TRIP: Trip = {
   pickupLat: 0,
   pickupLng: 0,
   dropoffLat: 0,
-  dropoffLng: 0
+  dropoffLng: 0,
+  year: 0
 };
